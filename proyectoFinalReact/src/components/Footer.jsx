@@ -35,16 +35,16 @@ const Footer = () => {
               <a href="tel:+54 123456789" className="mt-4 d-block mb-1 text-white">+54 123456789</a>
               <a href="mailfalso123@gmail.com" className="mt-2 d-block mb-0 text-white">mailfalso123@gmail.com</a>
               <div className="redes_sociales d-flex align-items-center mt-5 " style={{gap:'30px'}}>
-                <a href="" className='text-white'>
+                <a href=""  className='text-white'>
                   <BsLinkedin className=' fs-4'/>
                 </a>
-                <a href="" className='text-white'>
+                <a href=""  className='text-white'>
                 <BsInstagram className=' fs-4'/>
                 </a>
-                <a href="" className='text-white'>
+                <a href=""  className='text-white'>
                 <BsGithub className=' fs-4'/>
                 </a>
-                <a href="" className='text-white'>
+                <a href=""  className='text-white'>
                 <BsYoutube className=' fs-4'/>
                 </a>
               </div>
