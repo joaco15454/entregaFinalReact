@@ -2,26 +2,28 @@ import React from 'react'
 import ReactStars from "react-rating-stars-component"
 import { Link } from 'react-router-dom'
 
-const SpecialProduct = () => {
+const SpecialProduct = (props) => 
+{
+    const {title, brand, valoration, price, image, id} =props;
     return (
         <div className='col-6 mb-3'>
             <div className="special-product-card">
                 <div className="d-flex justify-content-between">
                     <div>
-                        <img src="images/watch.jpg" className='img-fluid' alt="watch" />
+                        <img src={image} className='img-fluid w-75' alt="watch" />
                     </div>
                     <div className='specialproduct-content'>
-                        <h5 className="brand">Havels</h5>
-                        <h6>Titulo no se que</h6>
+                        <h5 className="brand"> {brand} </h5>
+                        <h6 className='title'> {title} </h6>
                         <ReactStars
                             count={5}
-                            value={3}
+                            value={valoration}
                             edit='false'
                             size={24}
                             activeColor="#ffd700"
                         />
                         <p className="price">
-                            <span className="red-p">$100 &nbsp; <strike>$200</strike> </span>
+                            <span className="red-p">{price} &nbsp; <strike>$20000</strike> </span>
                         </p>
                         <div className="discount-till d-flex align-items-center" style={{ gap: '10px' }}>
                             <p className='mb-0'><b>5 </b>dias</p>
@@ -34,11 +36,11 @@ const SpecialProduct = () => {
                         </div>
                         <div className="prod-count my-3">
                                 <p>Products: 5</p>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div className="progress">
+                                    <div className="progress-bar" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                        <Link className='button' >Agregar al carro</Link>
+                        <Link className='button'to={'/product/' + id} >mirar</Link>
                     </div>
                 </div>
             </div>

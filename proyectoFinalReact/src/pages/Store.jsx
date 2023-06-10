@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import { Helmet } from "react-helmet";
 import Meta from '../components/Meta';
 import ReactStars from "react-rating-stars-component"
 import ProductCard from '../components/ProductCard'
 import Container from '../components/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../features/products/productSlice';
 const Store = () => {
   const [grid,setGrid] = useState(4)
+  const productState = useSelector((state) => state.product.product);
   
+  const dispatch = useDispatch()
+  useEffect(() => {
+    getProducts()
+  }, [] )
+  const getProducts = () => {
+    dispatch(getAllProducts());
+  }
   
   return (
     <>
@@ -102,8 +112,8 @@ const Store = () => {
                       <h5>Auriculares 10 colores</h5>
                       <ReactStars
                         count={5}
-                        value='3'
-                        edit='false'
+                        value={3}
+                        edit={false}
                         size={24}
                         activeColor="#ffd700"
                       />
@@ -118,8 +128,8 @@ const Store = () => {
                       <h5>Auriculares 10 colores</h5>
                       <ReactStars
                         count={5}
-                        value='3'
-                        edit='false'
+                        value={3}
+                        edit={false}
                         size={24}
                         activeColor="#ffd700"
                       />
@@ -160,7 +170,7 @@ const Store = () => {
               </div>
               <div className="products-list pb-5">
                   <div className="d-flex flex-wrap" style={{gap:'10px'}}>
-                  <ProductCard grid={grid}/>
+                  <ProductCard data={productState} grid={grid}/>
                   </div>
               </div>
             </div>

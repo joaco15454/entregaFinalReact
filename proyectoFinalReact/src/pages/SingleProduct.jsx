@@ -1,19 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import { Helmet } from "react-helmet";
 import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
 import ReactImageZoom from 'react-image-zoom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {IoGitCompare} from 'react-icons/io5'
 import {AiOutlineHeart} from 'react-icons/ai'
 import Container from '../components/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAProduct } from '../features/products/productSlice';
 const SingleProduct = () => {
+    const location = useLocation()
+    const getProductId = location.pathname.split("/")[2]
+    const dispatch = useDispatch()
+    const productState = useSelector(state => state.product.product[0])
+    console.log(productState)
+    useEffect(() => {
+        dispatch(getAProduct(getProductId))
+    }, [])
     const props = {
         width: 400,
         height: 250,
         zoomWidth: 500,
-        img: "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
+        img: productState?.imagen
     };
 
     return (
@@ -46,10 +56,10 @@ const SingleProduct = () => {
                         <div className="col-6">
                             <div className="main-product-details">
                                 <div className="border-bottom">
-                                    <h3 className='title'>Auriculares para ver</h3>
+                                    <h3 className='title'> {productState?.nombre} </h3>
                                 </div>
                                 <div className="border-bottom py-3">
-                                    <p className="price">$100</p>
+                                    <p className="price">{productState?.price}</p>
 
 
                                 </div>
@@ -60,7 +70,7 @@ const SingleProduct = () => {
                                     </div>
                                     <div className='d-flex align-items-center my-2' style={{ gap: '10px' }}>
                                         <h3 className='product-heading'>Brand:</h3>
-                                        <p className='product-data'>Havels</p>
+                                        <p className='product-data'> {productState?.brand} </p>
                                     </div>
                                     <div className='d-flex align-items-cente my-2r' style={{ gap: '10px' }}>
                                         <h3 className='product-heading'>Categoria:</h3>
@@ -108,7 +118,7 @@ const SingleProduct = () => {
                         <div className="col-12">
                             <div className="bg-white p-3">
                                 <h4>Descripcion</h4>
-                                <p >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea praesentium culpa, deleniti iure officiis nam aliquam dolorum illum asperiores voluptates pariatur fugiat voluptas vel maxime autem doloribus, doloremque ipsam provident?</p>
+                                <p >{productState?.descripcion}</p>
                             </div>
                         </div>
                     </div>

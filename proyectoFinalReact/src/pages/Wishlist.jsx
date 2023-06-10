@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import { Helmet } from "react-helmet";
 import Meta from '../components/Meta';
 import Container from '../components/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProductWishList } from '../features/products/userSlice';
 const Wishlist = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        getWishlistFromDb()
+    }, [])
+    const getWishlistFromDb = () => {
+        dispatch(getUserProductWishList)
+    };
+    const wishlistState = useSelector(state=>state.auth.wishlist)
     return (
         <>
             <Meta title={"Favoritos"} />

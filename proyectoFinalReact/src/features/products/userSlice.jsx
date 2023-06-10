@@ -12,6 +12,10 @@ export const registerUser = createAsyncThunk
     }
 })
 
+
+const getCustomerFromLocalStorage = localStorage.getItem("customer") 
+  ? JSON.parse(localStorage.getItem("customer")) : null;
+
 export const loginUser = createAsyncThunk
 ("auth/login", async(userData, thunkAPI) => {
     try {
@@ -21,9 +25,17 @@ export const loginUser = createAsyncThunk
     }
 })
 
+export const getUserProductWishList= createAsyncThunk ("user/whislist", async(thunkAPI) => {
+    try {
+        return await authService.getUserProductWishList
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
 
 const initialState = {
-    user: "",
+    user: getCustomerFromLocalStorage,
     isError:false,
     isSucces:false,
     isLoading: false,
@@ -76,6 +88,20 @@ export const authSlice = createSlice({
             if(state.isError===true) {
                 toast.error("Usuario no creado")
             }
+        })
+        .addCase(getUserProductWishList.pending,(state) => {
+            state.isLoading=true;
+        
+        }).addCase(getUserProductWishList.fulfilled, (state,action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSucces = true;
+            state.wishlist = action.payload
+        }).addCase(getUserProductWishList.rejected,(state,action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSucces = false;
+            state.message=action.error;
         })
     }
 })
