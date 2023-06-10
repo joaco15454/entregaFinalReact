@@ -33,7 +33,7 @@ const Header = () => {
           <div className="col-5">
             <div className="header-upper-links d-flex align-items-center justify-content-between">
               <div>
-                <Link className='d-flex align-items-center text-white' style={{gap:'10px'}}>
+                <Link to='/compare-product' className='d-flex align-items-center text-white' style={{gap:'10px'}}>
                 <img src="images/compare.svg" alt="compare" />
                 <p className='mb-0'>
                   Comparar productos
@@ -41,19 +41,19 @@ const Header = () => {
                 </Link>
               </div>
               <div>
-                <Link className='d-flex align-items-center text-white' style={{gap:'10px'}}>
+                <Link to='/wishlist' className='d-flex align-items-center text-white' style={{gap:'10px'}}>
                 <img src="images/wishlist.svg" alt="wishlist" />
                 <p className='mb-0'>Favoritos</p>
                 </Link>
               </div>
               <div>
-                <Link className='d-flex align-items-center text-white' style={{gap:'10px'}}>
+                <Link to='/login' className='d-flex align-items-center text-white' style={{gap:'10px'}}>
                 <img src="images/user.svg" alt="user" />
                 <p className='mb-0'>Inicia sesion</p>
                 </Link>
               </div>
               <div>
-                <Link className='d-flex align-items-center text-white' style={{gap:'10px'}}>
+                <Link to='/cart' className='d-flex align-items-center text-white' style={{gap:'10px'}}>
                 <img src="images/cart.svg" alt="cart" />
                 <div className='d-flex flex-column' style={{gap:'10px'}}>
                   <span className='badge bg-white text-dark'>
@@ -91,9 +91,10 @@ const Header = () => {
               <div className='menu-links'>
                 <div className="d-flex align-items-center " style={{gap:'15px'}}>
                   <NavLink   to="/">Inicio</NavLink>
-                  <NavLink  to="/">Tienda</NavLink>
-                  <NavLink  to="/">Novedades</NavLink>
-                  <NavLink  to="/">Contacto</NavLink>
+                  <NavLink  to="/product">Tienda</NavLink>
+                  <NavLink  to="/blogs">Novedades</NavLink>
+                  <NavLink  to="/contact">Contacto</NavLink>
+                
                 </div>
               </div>
 
