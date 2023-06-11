@@ -11,7 +11,7 @@ const Custominput = (props) => {
             className={`form-control ${classname} `} 
             value={value}
             onChange={onChange}
-            onBlur={onBlur}
+            onBlur={onBlur}        
             />
 
         </div>
