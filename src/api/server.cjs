@@ -10,8 +10,28 @@ app.use(express.json());
 
 
 
+const cartItems = [] || "Hola";
 
+// Ruta POST para agregar productos al carrito
+app.post('/api/user/cart', (req, res) => {
+  const { productId, quantity, price } = req.body;
 
+  // Crear un objeto para representar el producto
+  const product = {
+    productId,
+    quantity,
+    price
+  };
+
+  // Agregar el producto al array del carrito
+  cartItems.push(product);
+
+  // Enviar una respuesta exitosa
+  res.status(200).json({ message: 'Producto agregado al carrito correctamente' });
+});
+app.get('/api/user/cart', (req, res) => {
+  res.status(200).json(cartItems);
+});
 // Array con la lista de productos
 const products = [
   {
@@ -31,6 +51,7 @@ const products = [
   },
   // Agrega más objetos de productos si es necesario
 ];
+
 
 app.get('/api/productos', (req, res) => {
   res.json(products);
@@ -82,7 +103,20 @@ app.put('/api/wishlist', (req, res) => {
   }
 });
 
+app.get('/api/productos/:id', (req, res) => {
+  const productId = req.params.id;
 
+  // Buscar el producto en base a su ID
+  const product = products.find((p) => p.valoration === productId);
+
+  if (product) {
+    // Si se encuentra el producto, devolverlo como respuesta
+    res.json(product);
+  } else {
+    // Si no se encuentra el producto, devolver un error
+    res.status(404).json({ error: 'Producto no encontrado' });
+  }
+});
 
 
 // Puerto de escucha

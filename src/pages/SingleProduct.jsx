@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import { Helmet } from "react-helmet";
 import Meta from '../components/Meta';
@@ -9,30 +9,59 @@ import {IoGitCompare} from 'react-icons/io5'
 import {AiOutlineHeart} from 'react-icons/ai'
 import Container from '../components/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAProduct } from '../features/products/productSlice';
+import { addProdToCart, getAProduct } from '../features/products/productSlice';
+import { toast } from 'react-toastify';
+
+
 const SingleProduct = () => {
+    const [quantity, setQuantity] = useState(1)
     const location = useLocation()
     const getProductId = location.pathname.split("/")[2]
     const dispatch = useDispatch()
-    const productState = useSelector(state => state.product.product[0])
-    console.log(productState)
+    const product = useSelector(state => state.product.product);
+    const productState = product.find(item => item.valoration.toString() === getProductId);
+    console.log(product)
+  
     useEffect(() => {
         dispatch(getAProduct(getProductId))
     }, [])
+    const uploadCart = () => {
+        dispatch(addProdToCart({productId:productState?.valoration,quantity,price:productState?.price}))
+    }
+
+
+    const addToCartLocalStorage = () => {
+        const cartItem = {
+          valoration: productState?.valoration,
+          nombre: productState?.nombre,
+          price: productState?.price,
+          imagen: productState?.imagen,
+          quantity: productState?.quantity
+        };
+    
+        let cartItems = [];
+        const existingItems = localStorage.getItem('cart');
+        if (existingItems) {
+          cartItems = JSON.parse(existingItems);
+        }
+    
+        cartItems.push(cartItem);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    
+        toast.success('Producto agregado al carrito');
+      };
+    
+
     const props = {
         width: 400,
         height: 250,
         zoomWidth: 500,
         img: productState?.imagen
     };
+/*
 
-    return (
-        <>
-            <Meta title={"Producto"} />
-            <BreadCrum title='Producto' />
-            <Container class1="main-product-wrapper py-5 home-wrapper-2">
-                    <div className="row">
-                        <div className="col-6">
+
+<div className="col-6">
                             <div className="main-product-image">
                                 <div>
                                     <ReactImageZoom {...props} />
@@ -53,6 +82,36 @@ const SingleProduct = () => {
                                 </div>
                             </div>
                         </div>
+
+*/ 
+    return (
+        <>
+            <Meta title={"Producto"} />
+            <BreadCrum title='Producto' />
+            <Container class1="main-product-wrapper py-5 home-wrapper-2">
+                    <div className="row">
+                    <div className="col-6">
+                            <div className="main-product-image">
+                                <div>
+                                    <ReactImageZoom {...props} />
+                                </div>
+                            </div>
+                            <div className="other-product-image d-flex flex-wrap" style={{ gap: '10px' }}>
+                                <div>
+                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
+                                </div>
+                                <div>
+                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
+                                </div>
+                                <div>
+                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
+                                </div>
+                                <div>
+                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="col-6">
                             <div className="main-product-details">
                                 <div className="border-bottom">
@@ -92,10 +151,12 @@ const SingleProduct = () => {
                                     <div className='d-flex flex-column mt-2' style={{ gap: '10px' }}>
                                         <h3 className='product-heading'>Cantidad:</h3>
                                         <div>
-                                            <input type="number" min={1} style={{ width: '50px ' }} className='form-control' />
+                                            <input  value={quantity} onChange={(e) => setQuantity(e.target.value)} type="number" min={1} style={{ width: '50px ' }} className='form-control' />
                                         </div>
                                         <div className='d-flex align-items-center' style={{gap:'30px'}}>
-                                            <button className="button border-0" type='submit'>Agregar al carro</button>
+                                            <button onClick={() => {
+                                                addToCartLocalStorage()
+                                            }} className="button border-0" type='submit'>Agregar al carro</button>
                                             <button to='/signup' className='button signup'>Comprar ahora</button>
                                         </div>
                                     </div>

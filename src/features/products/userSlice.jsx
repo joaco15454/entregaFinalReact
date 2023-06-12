@@ -34,6 +34,29 @@ export const getUserProductWishList= createAsyncThunk ("user/whislist", async(th
 })
 
 
+export const addProdToCart = createAsyncThunk(
+    "user/cart/add", async(cartData,thunkAPI) => {
+        try {
+            return await authService.addToCart(cartData)
+        } catch(error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
+
+export const getUserCart = createAsyncThunk(
+    "user/cart/get", async(thunkAPI) => {
+        try {
+            return await authService.getCart()
+        } catch(error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    } 
+)
+
+
+
 const initialState = {
     user: getCustomerFromLocalStorage,
     isError:false,
@@ -89,15 +112,32 @@ export const authSlice = createSlice({
                 toast.error("Usuario no creado")
             }
         })
-        .addCase(getUserProductWishList.pending,(state) => {
+        .addCase(addProdToCart.pending,(state) => {
             state.isLoading=true;
         
-        }).addCase(getUserProductWishList.fulfilled, (state,action) => {
+        }).addCase(addProdToCart.fulfilled, (state,action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSucces = true;
-            state.wishlist = action.payload
-        }).addCase(getUserProductWishList.rejected,(state,action) => {
+            state.cartProduct = action.payload
+            if (state.isSucces) {
+                toast.success("CARRITOOO")
+            }
+        }).addCase(addProdToCart.rejected,(state,action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSucces = false;
+            state.message=action.error;
+        }).addCase(getUserCart.pending,(state) => {
+            state.isLoading=true;
+        
+        }).addCase(getUserCart.fulfilled, (state,action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSucces = true;
+            state.cartProducts = action.payload
+           
+        }).addCase(getUserCart.rejected,(state,action) => {
             state.isLoading = false
             state.isError = true
             state.isSucces = false;
@@ -108,3 +148,4 @@ export const authSlice = createSlice({
 
 export default authSlice.reducer;
 
+getUserCart
