@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+
 import {NavLink, Link} from 'react-router-dom'
 import {BsSearch} from 'react-icons/bs'
+import { useSelector } from 'react-redux';
 const Header = () => {
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(null)
+  const [cartItems, setCartItems] = useState([]);
+  const authState = useSelector(state=>state.auth)
+  
+  useEffect(() => {
+    
+    const items = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartItems(items);
+      
+
+    
+  }, []);
+  useEffect(() => {
+    let sum= 0;
+    
+    for (let index = 0; index< cartItems?.length; index++) {
+        sum+= Number(cartItems[index].quantity) * cartItems[index].price
+        
+    }setTotalAmount(sum)
+}, [cartItems])
+
   return (
     <>
     <header className="header-top-strip py-3">
@@ -21,7 +45,7 @@ const Header = () => {
         <div className="row align-items-center">
           <div className="col-2">
             <h2>
-              <Link className='text-white'>DevCorner</Link>
+              <Link className='text-white'>DevHernandez</Link>
               </h2>
           </div>
           <div className="col-5">
@@ -49,7 +73,13 @@ const Header = () => {
               <div>
                 <Link to='/login' className='d-flex align-items-center text-white' style={{gap:'10px'}}>
                 <img src="images/user.svg" alt="user" />
-                <p className='mb-0'>Inicia sesion</p>
+                {
+                  authState?.createdUser?.firstname=== undefined ? <p className='mb-0'>
+                  Inicia sesion
+                  </p> : <p className='mb-0'>
+                  Bienvenido! {authState?.createdUser?.firstname}
+                  </p>
+                }
                 </Link>
               </div>
               <div>
@@ -57,9 +87,9 @@ const Header = () => {
                 <img src="images/cart.svg" alt="cart" />
                 <div className='d-flex flex-column' style={{gap:'10px'}}>
                   <span className='badge bg-white text-dark'>
-                      0
+                  {cartItems.length}
                   </span>
-                  <p className='mb-0'>$500</p>
+                  <p className='mb-0'>${totalAmount}</p>
                 </div>
                 </Link>
               </div>

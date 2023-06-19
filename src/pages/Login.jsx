@@ -2,12 +2,12 @@ import React from 'react'
 import BreadCrum from '../components/BreadCrum'
 import { Helmet } from "react-helmet";
 import Meta from '../components/Meta';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Custominput from '../components/Custominput';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/products/userSlice';
 
 const loginSchema = yup.object({
@@ -18,7 +18,8 @@ const loginSchema = yup.object({
 
 
 const Login = () => {
-
+    const authState = useSelector(state=>state.auth)
+    const navigate= useNavigate()
     const dispatch = useDispatch();
 
 
@@ -30,6 +31,12 @@ const Login = () => {
       validationSchema: loginSchema,
       onSubmit: value => {
         dispatch(loginUser(value))
+        setTimeout(() => {
+            console.log(authState.isSucces)
+            if (authState.isSucces) {
+                navigate('/')
+            }
+        },300)
       },
     });
 

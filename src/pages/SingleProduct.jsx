@@ -18,9 +18,11 @@ const SingleProduct = () => {
     const location = useLocation()
     const getProductId = location.pathname.split("/")[2]
     const dispatch = useDispatch()
+    
     const product = useSelector(state => state.product.product);
     const productState = product.find(item => item.valoration.toString() === getProductId);
-    console.log(product)
+    console.log(quantity)
+   
   
     useEffect(() => {
         dispatch(getAProduct(getProductId))
@@ -36,18 +38,25 @@ const SingleProduct = () => {
           nombre: productState?.nombre,
           price: productState?.price,
           imagen: productState?.imagen,
-          quantity: productState?.quantity
+          quantity: Math.floor(quantity)
         };
     
         let cartItems = [];
         const existingItems = localStorage.getItem('cart');
         if (existingItems) {
           cartItems = JSON.parse(existingItems);
+          const existingItemIndex = cartItems.findIndex(item => item.valoration === cartItem.valoration);
+          if (existingItemIndex !== -1) {
+            cartItems[existingItemIndex].quantity += cartItem.quantity;
+          } else {
+            cartItems.push(cartItem);
+          }
+        } else {
+          cartItems.push(cartItem);
         }
-    
-        cartItems.push(cartItem);
+      
         localStorage.setItem('cart', JSON.stringify(cartItems));
-    
+      
         toast.success('Producto agregado al carrito');
       };
     
