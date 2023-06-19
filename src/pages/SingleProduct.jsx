@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 
 
 const SingleProduct = () => {
+const [popularProduct, setPopularProduct] = useState()
     const [quantity, setQuantity] = useState(1)
     const location = useLocation()
     const getProductId = location.pathname.split("/")[2]
@@ -23,7 +24,8 @@ const SingleProduct = () => {
     const productState = product.find(item => item.valoration.toString() === getProductId);
     console.log(quantity)
    
-  
+  const productsState= useSelector(state => state?.product.product)
+  console.log(productsState);
     useEffect(() => {
         dispatch(getAProduct(getProductId))
     }, [])
@@ -67,32 +69,21 @@ const SingleProduct = () => {
         zoomWidth: 500,
         img: productState?.imagen
     };
-/*
 
 
-<div className="col-6">
-                            <div className="main-product-image">
-                                <div>
-                                    <ReactImageZoom {...props} />
-                                </div>
-                            </div>
-                            <div className="other-product-image d-flex flex-wrap" style={{ gap: '10px' }}>
-                                <div>
-                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
-                                </div>
-                                <div>
-                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
-                                </div>
-                                <div>
-                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
-                                </div>
-                                <div>
-                                    <img className='img-fluid' src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg" alt="" />
-                                </div>
-                            </div>
-                        </div>
 
-*/ 
+    useEffect(() => {
+        let data = []
+        for (let index = 0; index < productsState.length; index++) {
+          const element = productsState[index];
+          
+          if (element.valoration===4) {
+            data.push(element)
+          }
+          setPopularProduct(data)
+        }
+    }, [product])
+    console.log(popularProduct)
     return (
         <>
             <Meta title={"Producto"} />
@@ -169,14 +160,7 @@ const SingleProduct = () => {
                                             <button to='/signup' className='button signup'>Comprar ahora</button>
                                         </div>
                                     </div>
-                                    <div className="d-flex align-items-center" style={{ gap: '15px' }} >
-                                            <div>
-                                                <a href=""><IoGitCompare className='fs-5 me-2'/>comprar</a>
-                                            </div>
-                                            <div>
-                                                <a href=""> <AiOutlineHeart className='fs-5 me-2'/>Agregar a lista de favoritos</a>
-                                            </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -208,7 +192,7 @@ const SingleProduct = () => {
                     <div className="row">
 
 
-                        <ProductCard />
+                        <ProductCard data={popularProduct}  />
 
                     </div>
                 </div>

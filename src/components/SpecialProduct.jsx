@@ -25,7 +25,7 @@ const SpecialProduct = (props) =>
                         <p className="price">
                             <span className="red-p">{price} &nbsp; <strike>$20000</strike> </span>
                         </p>
-                        <div className="discount-till d-flex align-items-center" style={{ gap: '10px' }}>
+                        {/*<div className="discount-till d-flex align-items-center" style={{ gap: '10px' }}>
                             <p className='mb-0'><b>5 </b>dias</p>
                             <div className="d-flex align-items-center" style={{ gap: '10px' }}>
                                 <span className='badge rounded-circle p-3 bg-danger'>1</span>:
@@ -33,7 +33,7 @@ const SpecialProduct = (props) =>
                                 <span className='badge rounded-circle p-3 bg-danger'>1</span>
                             </div>
                             
-                        </div>
+    </div>*/}
                         <div className="prod-count my-3">
                                 <p>Products: 5</p>
                                 <div className="progress">

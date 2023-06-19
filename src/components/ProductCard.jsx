@@ -27,11 +27,7 @@ const ProductCard = (props) => {
                         className={`${location.pathname == "/product" ? `gr-${grid}` : "col-3"
                             }`}>
                             <div  className="product-card position-relative">
-                                <div className="wishlist-icon position-absolute">
-                                    <button className='border-0 bg-transparent' onClick={(e) => {
-                                                addToWish(item?.valoration)
-                                    }} ><img src="images/wish.svg" alt="wish" /></button>
-                                </div>
+                                
                                 <div className="product-image">
                                     <img src={item?.imagen} className='img-fluid d-block mx-auto w-100' alt="product image" />
                                  
@@ -59,9 +55,7 @@ const ProductCard = (props) => {
                                 </div>
                                 <div className="action-bar position-absolute">
                                     <div className='d-flex flex-column' style={{ gap: '15px' }}>
-                                        <button className='border-0 bg-transparent'>
-                                            <img src="images/prodcompare.svg" alt="compare" />
-                                        </button>
+                                        
                                         <Link to={'/product/'+item?.valoration} className='border-0 bg-transparent'>
                                             <img src="images/view.svg" alt="addcart" />
                                         </Link>

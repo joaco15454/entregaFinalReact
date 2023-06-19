@@ -11,6 +11,18 @@ const Store = () => {
   const [grid,setGrid] = useState(4)
   const productState = useSelector((state) => state.product.product);
   
+  const [brands, setBrands] = useState([])
+
+  useEffect (() => {
+    let newBrands = []
+   
+    for (let index = 0; index < productState.length; index++) {
+      const element = productState[index];
+      newBrands.push({brand:element.brand})
+    }
+    setBrands(newBrands)
+  }, [productState])
+  console.log(brands);
   const dispatch = useDispatch()
   useEffect(() => {
     getProducts()
@@ -19,6 +31,10 @@ const Store = () => {
     dispatch(getAllProducts());
   }
   
+
+  const [minPrice, setMinPrice] = useState(null)
+  const [maxPrice, setMaxPrice] = useState(null)
+
   return (
     <>
       <Meta title={"Tienda"} />
@@ -99,7 +115,7 @@ const Store = () => {
                   </div>
                 </div>
               </div>
-              <div className="filter-card mb-3" >
+              {/*<div className="filter-card mb-3" >
                 <h3 className="filter-title">
                   Producto random
                 </h3>
@@ -120,7 +136,7 @@ const Store = () => {
                       <b>$300</b>
                     </div>
                   </div>
-                  <div className="random-products d-flex">
+                  {<div className="random-products d-flex">
                     <div className="w-50">
                       <img src="images/watch.jpg" className='img-fluid' alt="" />
                     </div>
@@ -135,9 +151,9 @@ const Store = () => {
                       />
                       <b>$300</b>
                     </div>
-                  </div>
+  </div>}
                 </div>
-              </div>
+  </div>*/}
 
             </div>
             <div className="col-9">

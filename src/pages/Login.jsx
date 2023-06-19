@@ -31,12 +31,11 @@ const Login = () => {
       validationSchema: loginSchema,
       onSubmit: value => {
         dispatch(loginUser(value))
-        setTimeout(() => {
+      
             console.log(authState.isSucces)
-            if (authState.isSucces) {
+            
                 navigate('/')
-            }
-        },300)
+          
       },
     });
 
